@@ -2,8 +2,8 @@
 
 * {
   box-sizing: border-box;
-  margin: 0;
-  padding: 0;
+  /* margin: 0; */
+  padding: 0 0.5rem;
   font-family: "Lato";
 }
 
@@ -12,24 +12,21 @@ header {
 }
 
 h1 {
+  text-align: center;
   letter-spacing: 5px;
 }
 
 body {
   background: linear-gradient(to right, #d4d3dd, #efefbb);
-  display: flex;
+  /* display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-between;
+  justify-content: space-between; */
 }
 
 .pokeContainer {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: center;
-  margin: 0 auto;
-  max-width: 1200px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
   gap: 1rem;
 }
 
@@ -43,11 +40,20 @@ body {
 
 .imageContainer {
   background-color: rgba(255, 255, 255, 0.6);
-  border-radius: 50%;
+  border-radius: 5%;
 }
 
 .info {
+  display: flex;
+  flex-direction: column;
   margin-top: 1rem;
+}
+
+.info .type {
+  display: flex;
+  flex-direction: rows;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 
 .info .number {
@@ -55,8 +61,4 @@ body {
   padding: 2px 13px;
   border-radius: 10px;
   font-size: 0.8rem;
-}
-
-.info .name {
-  margin: 15px 7px;
 }

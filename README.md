@@ -1,10 +1,10 @@
 # Projeto Pokedex (HTML, CSS e Javascript)
 
-Projeto para listar pokemons usando a api https://pokeapi.co/
+Projeto para listar pokemons usando a api https://pokeapi.co/. O projeto está hospedado no githubpages no link: https://hennet.github.io/pokedex-html-css-js/
 
 ## Design do Projeto
 
-![Pokemons](pokemons.png)
+![Pokemons](image.png)
 
 ## Exemplo de uso da API (https://pokeapi.co/)
 
