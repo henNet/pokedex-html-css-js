@@ -1,5 +1,5 @@
 const pokeContainer = document.querySelector(".pokeContainer");
-const pokeCount = 100;
+const pokeCount = 600;
 const colors = {
   fire: "#FDDFDF",
   grass: "#DEFDE0",
@@ -27,6 +27,35 @@ async function getPokemon(id) {
   const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}`);
   const data = await response.json();
   createPokeCard(data);
+}
+
+async function createPromisse(id) {
+  const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}`);
+  const data = await response.json();
+  return data;
+}
+
+function resolveAllPromisses() {
+  let promisses = [];
+
+  /* Cria um vetor de varias promisses que são as 
+    as requisições fetch a api dos pokemons */
+  for (i = 1; i <= pokeCount; i++) {
+    promisses.push(createPromisse(i));
+  }
+
+  /* Quando todas as promisses forem resolvidas, 
+    o código em then eh executado */
+  Promise.all(promisses)
+    .then((valores) => {
+      //console.log(valores);
+      for (i = 1; i <= pokeCount; i++) {
+        createPokeCard(valores[i]);
+      }
+    })
+    .catch((erro) => {
+      console.log(erro.message);
+    });
 }
 
 function createPokeCard(poke) {
@@ -60,3 +89,4 @@ function createPokeCard(poke) {
 }
 
 fetchPokemons();
+// resolveAllPromisses();
