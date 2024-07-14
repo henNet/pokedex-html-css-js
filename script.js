@@ -1,5 +1,14 @@
+/* Variáveis para manipular o DOM */
+const container = document.querySelector(".container");
 const pokeContainer = document.querySelector(".pokeContainer");
-const pokeCount = 600;
+const pokeFilterContainer = document.querySelector(".pokeFilter");
+const inputSearch = document.querySelector("input");
+const btnClear = document.querySelector("button");
+
+/* Variáveis para trabalhar com a API */
+const pokeCount = 100;
+var manyPokemons = [];
+var filteredPokemons = [];
 const colors = {
   fire: "#FDDFDF",
   grass: "#DEFDE0",
@@ -21,13 +30,54 @@ async function fetchPokemons() {
   for (i = 1; i <= pokeCount; i++) {
     await getPokemon(i);
   }
+
+  pokeFilterContainer.style.display = "none";
+  pokeContainer.style.display = "grid";
+
+  manyPokemons.forEach((pokemon) => {
+    createPokeContainer(pokemon);
+  });
+  console.log(manyPokemons);
+
+  container.appendChild(pokeContainer);
 }
 
 async function getPokemon(id) {
   const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}`);
   const data = await response.json();
-  createPokeCard(data);
+  createPokeContainer(data);
+  manyPokemons.push(data);
 }
+
+inputSearch.addEventListener("keyup", () => {
+  let searchName = inputSearch.value;
+
+  filteredPokemons = manyPokemons.filter((poke) => {
+    if (poke.name.startsWith(searchName)) return poke.name;
+  });
+
+  pokeContainer.style.display = "none";
+  pokeFilterContainer.style.display = "grid";
+
+  pokeFilterContainer.innerHTML = "";
+
+  console.log(filteredPokemons);
+  filteredPokemons.forEach((poke) => {
+    createFilteredContainer(poke);
+  });
+
+  container.appendChild(pokeFilterContainer);
+});
+
+btnClear.addEventListener("click", () => {
+  inputSearch.value = "";
+
+  pokeFilterContainer.style.display = "none";
+  pokeContainer.style.display = "grid";
+  manyPokemons.forEach((pokemon) => {
+    createPokeContainer(pokemon);
+  });
+});
 
 async function createPromisse(id) {
   const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}`);
@@ -69,7 +119,7 @@ function createPokeCard(poke) {
 
   card.style.backgroundColor = color;
 
-  // console.log(name, id, type);
+  console.log(name, id, type);
   const cardInnerHTML = `
       <div class="imageContainer">
         <img
@@ -85,7 +135,18 @@ function createPokeCard(poke) {
     `;
 
   card.innerHTML = cardInnerHTML;
+
+  return card;
+}
+
+function createPokeContainer(poke) {
+  card = createPokeCard(poke);
   pokeContainer.appendChild(card);
+}
+
+function createFilteredContainer(poke) {
+  card = createPokeCard(poke);
+  pokeFilterContainer.appendChild(card);
 }
 
 fetchPokemons();
